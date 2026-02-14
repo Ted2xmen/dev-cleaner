@@ -28,11 +28,13 @@ Developer tools accumulate gigabytes of cached data over time: Xcode DerivedData
 
 ## Usage
 
+### Basic usage
+
 ```bash
 git clone https://github.com/ted2xmen/dev-cleaner.git
 cd dev-cleaner
 chmod +x clean.sh
-bash clean.sh
+./clean.sh
 ```
 
 Or run it directly:
@@ -41,8 +43,28 @@ Or run it directly:
 curl -fsSL https://raw.githubusercontent.com/ted2xmen/dev-cleaner/main/clean.sh | bash
 ```
 
+### Preview mode (dry run)
+
+See what would be deleted without actually deleting anything:
+
+```bash
+./clean.sh --dry-run
+# or use the short flag
+./clean.sh -d
+```
+
+### Options
+
+```bash
+./clean.sh [--dry-run|-d] [--help|-h]
+
+  --dry-run, -d    Show what would be deleted without actually deleting
+  --help, -h       Show usage information
+```
+
 ## Safety
 
+- **Dry run mode**: Preview what would be deleted with `--dry-run` before committing to any changes
 - Each section checks if the tool is installed before running (`command -v`)
 - Directory-based cleanups check if the directory exists first
 - All commands suppress errors gracefully — nothing breaks if a tool is missing
