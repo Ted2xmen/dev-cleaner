@@ -14,7 +14,7 @@ Developer tools accumulate gigabytes of cached data over time: Xcode DerivedData
 | **Xcode** | DerivedData, Archives, iOS DeviceSupport, simulators |
 | **Homebrew** | Old downloads, unused dependencies |
 | **Docker** | Unused images, containers, volumes |
-| **Node.js** | npm, yarn, pnpm caches |
+| **Node.js** | npm, yarn, pnpm, bun caches |
 | **Python** | pip / pip3 cache |
 | **Ruby** | Old gem versions |
 | **Go** | Build cache, module cache |
@@ -23,7 +23,14 @@ Developer tools accumulate gigabytes of cached data over time: Xcode DerivedData
 | **Maven** | Local repository |
 | **CocoaPods** | Pod cache |
 | **React Native** | Metro bundler cache, Android cache |
-| **Apps** | Spotify, Google Chrome caches |
+| **Apps** | Spotify, Google Chrome, Brave Browser caches |
+| **Playwright** | Downloaded browser binaries |
+| **TypeScript** | Build info cache |
+| **Swift PM** | Package manager cache |
+| **Expo / Watchman** | Expo cache, Watchman watches |
+| **IDEs** | Zed, JetBrains (WebStorm, IntelliJ, etc.) caches |
+| **Communication** | Slack, Discord, Microsoft Teams caches |
+| **Composer / NuGet** | PHP and .NET package caches |
 | **npkill** | Interactive `node_modules` scanner (optional) |
 
 ## Usage

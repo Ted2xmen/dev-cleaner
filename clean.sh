@@ -214,6 +214,22 @@ else
   skip "pnpm"
 fi
 
+if command_exists bun; then
+  if dir_exists ~/.bun/install/cache; then
+    if [[ "$DRY_RUN" == "true" ]]; then
+      would_delete "~/.bun/install/cache"
+    else
+      info "Clearing Bun install cache..."
+      rm -rf ~/.bun/install/cache 2>/dev/null || true
+      success "Bun cleaned."
+    fi
+  else
+    skip "~/.bun/install/cache"
+  fi
+else
+  skip "bun"
+fi
+
 # -- 6. Python / pip -----------------------------------------------------------
 
 section "Python / pip"
@@ -352,9 +368,9 @@ if dir_exists ~/.android/cache; then
   fi
 fi
 
-# -- 14. App Caches (Spotify, Chrome) -----------------------------------------
+# -- 14. App Caches (Spotify, Chrome, Brave) ----------------------------------
 
-section "App Caches (Spotify, Chrome)"
+section "App Caches (Spotify, Chrome, Brave)"
 
 if dir_exists ~/Library/Caches/com.spotify.client; then
   if [[ "$DRY_RUN" == "true" ]]; then
@@ -374,6 +390,184 @@ if dir_exists ~/Library/Caches/Google; then
     rm -rf ~/Library/Caches/Google 2>/dev/null || true
     success "Chrome cleaned."
   fi
+fi
+
+if dir_exists ~/Library/Caches/BraveSoftware; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/Library/Caches/BraveSoftware"
+  else
+    info "Clearing Brave Browser cache..."
+    rm -rf ~/Library/Caches/BraveSoftware 2>/dev/null || true
+    success "Brave cleaned."
+  fi
+fi
+
+# -- 15. Playwright Browsers --------------------------------------------------
+
+section "Playwright Browsers"
+
+if dir_exists ~/.cache/ms-playwright; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/.cache/ms-playwright"
+  else
+    info "Clearing Playwright browser binaries..."
+    rm -rf ~/.cache/ms-playwright 2>/dev/null || true
+    success "Done."
+  fi
+else
+  skip "~/.cache/ms-playwright"
+fi
+
+# -- 16. TypeScript Build Cache ------------------------------------------------
+
+section "TypeScript Build Cache"
+
+if dir_exists ~/.cache/typescript; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/.cache/typescript"
+  else
+    info "Clearing TypeScript build info cache..."
+    rm -rf ~/.cache/typescript 2>/dev/null || true
+    success "Done."
+  fi
+else
+  skip "~/.cache/typescript"
+fi
+
+# -- 17. Swift Package Manager -------------------------------------------------
+
+section "Swift Package Manager"
+
+if dir_exists ~/Library/Caches/org.swift.swiftpm; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/Library/Caches/org.swift.swiftpm"
+  else
+    info "Clearing Swift Package Manager cache..."
+    rm -rf ~/Library/Caches/org.swift.swiftpm 2>/dev/null || true
+    success "Done."
+  fi
+else
+  skip "Swift PM cache"
+fi
+
+# -- 18. Expo / Watchman -------------------------------------------------------
+
+section "Expo / Watchman"
+
+if dir_exists ~/.expo; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/.expo"
+  else
+    info "Clearing Expo cache..."
+    rm -rf ~/.expo 2>/dev/null || true
+    success "Expo cleaned."
+  fi
+fi
+
+if command_exists watchman; then
+  execute_or_preview "Clearing Watchman watches..." "watchman watch-del-all 2>/dev/null || true"
+  if [[ "$DRY_RUN" == "false" ]]; then
+    success "Watchman cleaned."
+  fi
+else
+  skip "watchman"
+fi
+
+# -- 19. IDE Caches (Zed, JetBrains) ------------------------------------------
+
+section "IDE Caches (Zed, JetBrains)"
+
+if dir_exists ~/Library/Caches/Zed; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/Library/Caches/Zed"
+  else
+    info "Clearing Zed editor cache..."
+    rm -rf ~/Library/Caches/Zed 2>/dev/null || true
+    success "Zed cleaned."
+  fi
+fi
+
+if dir_exists ~/Library/Caches/JetBrains; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/Library/Caches/JetBrains"
+  else
+    info "Clearing JetBrains IDE caches..."
+    rm -rf ~/Library/Caches/JetBrains 2>/dev/null || true
+    success "JetBrains cleaned."
+  fi
+fi
+
+# -- 20. Communication App Caches (Slack, Discord, Teams) ---------------------
+
+section "Communication App Caches"
+
+if dir_exists ~/Library/Caches/com.tinyspeck.slackmacgap; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/Library/Caches/com.tinyspeck.slackmacgap"
+  else
+    info "Clearing Slack cache..."
+    rm -rf ~/Library/Caches/com.tinyspeck.slackmacgap 2>/dev/null || true
+    success "Slack cleaned."
+  fi
+fi
+
+if dir_exists ~/Library/Caches/com.hnc.Discord; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/Library/Caches/com.hnc.Discord"
+  else
+    info "Clearing Discord cache..."
+    rm -rf ~/Library/Caches/com.hnc.Discord 2>/dev/null || true
+    success "Discord cleaned."
+  fi
+fi
+
+if dir_exists ~/Library/Caches/com.microsoft.teams; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/Library/Caches/com.microsoft.teams"
+  else
+    info "Clearing Microsoft Teams cache..."
+    rm -rf ~/Library/Caches/com.microsoft.teams 2>/dev/null || true
+    success "Teams cleaned."
+  fi
+fi
+
+# -- 21. Composer (PHP) / NuGet (.NET) -----------------------------------------
+
+section "Composer / NuGet"
+
+if command_exists composer; then
+  execute_or_preview "Clearing Composer cache..." "composer clear-cache 2>/dev/null || true"
+  if [[ "$DRY_RUN" == "false" ]]; then
+    success "Composer cleaned."
+  fi
+elif dir_exists ~/.composer/cache; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/.composer/cache"
+  else
+    info "Clearing Composer cache directory..."
+    rm -rf ~/.composer/cache 2>/dev/null || true
+    success "Composer cleaned."
+  fi
+else
+  skip "composer"
+fi
+
+if command_exists dotnet; then
+  execute_or_preview "Clearing NuGet HTTP cache..." "dotnet nuget locals http-cache --clear 2>/dev/null || true"
+  execute_or_preview "Clearing NuGet temp cache..." "dotnet nuget locals temp --clear 2>/dev/null || true"
+  if [[ "$DRY_RUN" == "false" ]]; then
+    success "NuGet cleaned."
+  fi
+elif dir_exists ~/.nuget/packages; then
+  if [[ "$DRY_RUN" == "true" ]]; then
+    would_delete "~/.nuget/packages"
+  else
+    info "Clearing NuGet packages cache..."
+    rm -rf ~/.nuget/packages 2>/dev/null || true
+    success "NuGet cleaned."
+  fi
+else
+  skip "dotnet / NuGet"
 fi
 
 # -- Summary -------------------------------------------------------------------
@@ -399,7 +593,7 @@ else
   echo ""
 fi
 
-# -- 15. Interactive: npkill (node_modules scanner) ---------------------------
+# -- 22. Interactive: npkill (node_modules scanner) ---------------------------
 
 if [[ "$DRY_RUN" == "true" ]]; then
   echo -e "  ${DIM}[DRY RUN] Skipping interactive npkill (not applicable in preview mode)${NC}"
